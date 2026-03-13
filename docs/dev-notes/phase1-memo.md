@@ -23,7 +23,7 @@
     summary: string;   // 後でLLMが埋める
     source: string;
     publishedAt: string;
-    importance: "high" | "mid" | "low"; // 後でLLMが埋める
+    importance: "high" | "medium" | "low"; // 後でLLMが埋める
   }
   ```
 
@@ -66,7 +66,7 @@
 **プロンプト設計メモ**:
 ```
 以下の記事を日本語で3〜5行に要約し、技術的重要度をhigh/mid/lowで判定してください。
-JSONで返してください: { "summary": "...", "importance": "high"|"mid"|"low" }
+JSONで返してください: { "summary": "...", "importance": "high"|"medium"|"low" }
 
 タイトル: {title}
 本文: {content}
@@ -86,6 +86,7 @@ JSONで返してください: { "summary": "...", "importance": "high"|"mid"|"lo
   - ヘッダーに生成日時・クエリ・記事数を記載
 - [ ] `./output/` ディレクトリを自動作成
 - [ ] `package.json` に `bin` エントリを追加してCLIコマンドとして呼べるようにする
+- [ ] `profiles.yaml` を実装し、プロファイル名で即実行できるようにする
 - [ ] 全体を通しで動作確認
 - [ ] README.md に使い方を書く（セットアップ手順・実行例）
 
@@ -98,12 +99,17 @@ JSONで返してください: { "summary": "...", "importance": "high"|"mid"|"lo
 ```
 ai-news-agent/
 ├── src/
-│   ├── index.ts          # エントリーポイント（CLI引数処理）
-│   ├── fetchRSS.ts       # RSS取得・フィルタリング
-│   ├── summarize.ts      # Claude API連携（要約・翻訳・重要度）
-│   └── writeMarkdown.ts  # md出力
-├── output/               # 生成されたmdファイルの置き場
-├── .env                  # ANTHROPIC_API_KEY
+│   ├── index.ts                    # エントリーポイント（CLI引数処理）
+│   ├── types.ts                    # 共通型定義（Article等）
+│   ├── services/
+│   │   ├── fetchRSS.ts             # RSS取得
+│   │   ├── summarize.ts            # Claude API連携（要約・翻訳・重要度）
+│   │   └── writeMarkdown.ts        # md出力
+│   └── use-cases/
+│       └── collectNews.ts          # フロー制御（fetchRSS → summarize → write）
+├── output/                         # 生成されたmdファイルの置き場
+├── profiles.yaml                   # 名前付きプロファイル設定
+├── .env                            # ANTHROPIC_API_KEY
 ├── package.json
 └── tsconfig.json
 ```

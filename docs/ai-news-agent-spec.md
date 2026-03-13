@@ -352,7 +352,6 @@ server.tool("fetch_ai_news", {
 - [ ] X ブックマークとの統合
 - [ ] ソース追加（GitHub Trending / arXiv / 海外テックブログ）
 - [ ] 過去ダイジェストとの差分検出（「先週から続いているトレンド」の検出）
-- [ ] togu CLI との統合（`togu news` コマンドとして呼び出せる形）
 - [ ] Zenn 記事執筆時のリサーチ入力として自動連携
 
 ---
@@ -361,7 +360,7 @@ server.tool("fetch_ai_news", {
 
 | 役割 | 候補 | 備考 |
 |---|---|---|
-| 言語 | TypeScript | togu と同スタック |
+| 言語 | TypeScript | |
 | LLM（内側エージェント） | Claude API（claude-sonnet-4-6） | Tool use サポート |
 | MCP サーバー実装 | `@modelcontextprotocol/sdk` | 公式 TypeScript SDK |
 | Web 検索 | Tavily API / Perplexity API | Phase 2 で検討 |

@@ -2,7 +2,7 @@
 
 ## ゴール
 
-`ai-news-agent "クエリ"` の1コマンドで `./output/YYYY-MM-DD.md` を生成する。
+クエリ直接指定またはプロファイル名の1コマンドで `./output/YYYY-MM-DD.md` を生成する。
 
 ---
 
@@ -65,7 +65,7 @@
 
 **プロンプト設計メモ**:
 ```
-以下の記事を日本語で3〜5行に要約し、技術的重要度をhigh/mid/lowで判定してください。
+以下の記事を日本語で3〜5行に要約し、技術的重要度をhigh/medium/lowで判定してください。
 JSONで返してください: { "summary": "...", "importance": "high"|"medium"|"low" }
 
 タイトル: {title}
@@ -86,11 +86,11 @@ JSONで返してください: { "summary": "...", "importance": "high"|"medium"|
   - ヘッダーに生成日時・クエリ・記事数を記載
 - [ ] `./output/` ディレクトリを自動作成
 - [ ] `package.json` に `bin` エントリを追加してCLIコマンドとして呼べるようにする
-- [ ] `profiles.yaml` を実装し、プロファイル名で即実行できるようにする
+- [ ] `js-yaml` を導入し、`profiles.yaml` をパースしてプロファイル名で即実行できるようにする
 - [ ] 全体を通しで動作確認
 - [ ] README.md に使い方を書く（セットアップ手順・実行例）
 
-**確認ポイント**: `npx ai-news-agent "LLM"` または `npm start "LLM"` で仕様書通りのmdが生成される
+**確認ポイント**: `npx ai-news-agent "LLM"` でクエリ指定実行、`npx ai-news-agent morning` でプロファイル指定実行のどちらでも仕様書通りのmdが生成される
 
 ---
 

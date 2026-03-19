@@ -2,11 +2,11 @@
 
 ## ゴール
 
-クエリ直接指定またはプロファイル名の1コマンドで `./output/YYYY-MM-DD.md` を生成する。
+`ai-news-agent "クエリ" --limit 10` の1コマンドで `./output/YYYY-MM-DD.md` を生成する。
 
 ---
 
-## Phase 1 スケジュール（2h/日 × 4日）
+## Phase 1 スケジュール（Week 1: 3/22 土 - 3/23 日、土日合わせて約8h）
 
 ### Day 1 — プロジェクト初期セットアップ + RSS取得
 
@@ -38,7 +38,7 @@
 - [ ] `fetchRSS` 関数を汎用化（URLを渡すだけで動く形に）
 - [ ] Zenn RSS（`https://zenn.dev/feed`）を追加
 - [ ] dev.to RSS（`https://dev.to/feed`）を追加
-- [ ] CLI引数でクエリを受け取る（`process.argv[2]`）
+- [ ] CLI引数でクエリと`--limit`オプションを受け取る（例: `ai-news-agent "MCP" --limit 10`）
 - [ ] タイトル・本文にクエリキーワードが含まれる記事をフィルタリング
 
 **RSSフィードURL**:
@@ -52,45 +52,46 @@
 
 ---
 
-### Day 3 — Claude API連携（翻訳・要約・重要度分類）
+### Day 3 — Claude API連携（完全翻訳・重要度分類）
 
-**目標**: 各記事をClaude APIで日本語要約 + High/Mid/Low分類できる状態
+**目標**: 各記事をClaude APIで日本語完全翻訳 + High/Mid/Low分類できる状態
 
 - [ ] `@anthropic-ai/sdk` を導入、APIキーを `.env` に設定
-- [ ] `summarizeArticle` 関数を実装（固定プロンプトで要約・翻訳・重要度を一括取得）
-  - 1回のAPI呼び出しで要約・翻訳・重要度を返すプロンプト設計
+- [ ] `translateArticle` 関数を実装（固定プロンプトで完全翻訳・重要度を一括取得）
+  - 1回のAPI呼び出しで翻訳・重要度を返すプロンプト設計
   - レスポンスはJSON形式で受け取ると後処理が楽
-- [ ] 全記事にsummarizeを適用（並列処理で高速化: `Promise.all`）
+- [ ] 全記事にtranslateを適用（並列処理で高速化: `Promise.allSettled`）
 - [ ] レート制限対策として適度なconcurrency制御（同時5件程度）
 
 **プロンプト設計メモ**:
 ```
-以下の記事を日本語で3〜5行に要約し、技術的重要度をhigh/medium/lowで判定してください。
-JSONで返してください: { "summary": "...", "importance": "high"|"medium"|"low" }
+以下の記事を日本語に完全翻訳し、技術的重要度をhigh/medium/lowで判定してください。
+翻訳は要約ではなく原文の内容をすべて翻訳すること。技術用語（embedding, RAG等）は英語のまま保持。
+JSONで返してください: { "translation": "...", "importance": "high"|"medium"|"low" }
 
 タイトル: {title}
 本文: {content}
 ```
 
-**確認ポイント**: 各記事に日本語要約と重要度ラベルが付いた状態でコンソールに表示される
+**確認ポイント**: 各記事に日本語完全翻訳と重要度ラベルが付いた状態でコンソールに表示される
 
 ---
 
 ### Day 4 — Markdown出力 + CLI完成 + 動作確認
 
-**目標**: `ai-news-agent "クエリ"` で `./output/YYYY-MM-DD.md` が生成される
+**目標**: `ai-news-agent "クエリ" --limit 10` で `./output/YYYY-MM-DD.md` が生成される
 
 - [ ] `writeMarkdown` 関数を実装
   - High / Mid / Low でセクション分け
-  - 各記事: タイトル・ソース・URL・日時・要約を出力
+  - 各記事: タイトル・ソース・URL・日時・翻訳を出力
   - ヘッダーに生成日時・クエリ・記事数を記載
 - [ ] `./output/` ディレクトリを自動作成
 - [ ] `package.json` に `bin` エントリを追加してCLIコマンドとして呼べるようにする
-- [ ] `js-yaml` を導入し、`profiles.yaml` をパースしてプロファイル名で即実行できるようにする
 - [ ] 全体を通しで動作確認
+- [ ] パフォーマンス計測（5記事で2分以内、10記事で3分以内を目標）
 - [ ] README.md に使い方を書く（セットアップ手順・実行例）
 
-**確認ポイント**: `npx ai-news-agent "LLM"` でクエリ指定実行、`npx ai-news-agent morning` でプロファイル指定実行のどちらでも仕様書通りのmdが生成される
+**確認ポイント**: `ai-news-agent "LLM" --limit 10` で仕様書通りの md が生成される。5記事で2分以内、10記事で3分以内を達成していること
 
 ---
 
@@ -103,12 +104,11 @@ ai-news-agent/
 │   ├── types.ts                    # 共通型定義（Article等）
 │   ├── services/
 │   │   ├── fetchRSS.ts             # RSS取得
-│   │   ├── summarize.ts            # Claude API連携（要約・翻訳・重要度）
+│   │   ├── translate.ts            # Claude API連携（完全翻訳・重要度）
 │   │   └── writeMarkdown.ts        # md出力
 │   └── use-cases/
-│       └── collectNews.ts          # フロー制御（fetchRSS → summarize → write）
+│       └── collectNews.ts          # フロー制御（fetchRSS → translate → write）
 ├── output/                         # 生成されたmdファイルの置き場
-├── profiles.yaml                   # 名前付きプロファイル設定
 ├── .env                            # ANTHROPIC_API_KEY
 ├── package.json
 └── tsconfig.json

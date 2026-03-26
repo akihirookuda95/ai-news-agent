@@ -16,3 +16,6 @@ output/
 
 # OS
 .DS_Store
+
+# external repos (learning reference)
+langgraphjs/

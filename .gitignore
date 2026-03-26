@@ -17,5 +17,9 @@ output/
 # OS
 .DS_Store
 
-# external repos (learning reference)
-langgraphjs/
+# external repos (learning reference, except practice/)
+langgraphjs/*
+!langgraphjs/examples/
+langgraphjs/examples/*
+!langgraphjs/examples/practice/
+langgraphjs/examples/practice/node_modules/

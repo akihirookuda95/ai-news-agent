@@ -46,7 +46,7 @@
 
 **やること**:
 1. Tool use設計（fetchRSS / webSearch / fetchTechBlog / checkDuplicate / scoreArticle をLLMが呼び出す形に再設計）
-2. **テックブログソースの追加**（Anthropic, OpenAI, Cohere 等）
+2. **テックブログソースの追加**
 3. **情報抽象度レイヤーに応じたソース選択ロジック実装**（マクロ/ミドル/ミクロ）
 4. **フォールバック付き多段フェッチループの実装**（品質・量が不足したら追加ソースへ自動フォールバック）
 5. Multi-Query実装（LLMが不足情報を自律的に追加検索するループ）

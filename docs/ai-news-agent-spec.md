@@ -526,7 +526,7 @@ LangGraph の v0.3.0 がリリースされた。今回のリリースでは、st
 **目標**: 固定パイプラインをエージェントループに置き換える
 
 - [ ] Tool use 設計（fetchRSS / webSearch / fetchTechBlog / checkDuplicate / scoreArticle）
-- [ ] **テックブログソースの追加**（Anthropic, OpenAI, Cohere 等）
+- [ ] **テックブログソースの追加**
 - [ ] **フォールバック付き多段フェッチループの実装**
 - [ ] **抽象度レイヤーに応じたソース選択ロジック**
 - [ ] LLM が不足情報を自律的に追加検索するループ実装（Multi-Query）
@@ -626,4 +626,3 @@ LangGraph の v0.3.0 がリリースされた。今回のリリースでは、st
 - **TUI 対話 → 動的ソース選択 → エージェント実行の E2E 設計**
 - TypeScript での CLI → MCP サーバー移行の設計判断
 
-Helpfeel・カオナビの面接軸「評価インフラの設計経験」および「エージェント設計経験」に直結する実装になる。

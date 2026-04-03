@@ -119,7 +119,7 @@
   - 関連コミットID:
     - `ecc7221`
 
-- `Contexts/20260403_design-phase-shift.md`
+- `contexts/20260403_design-phase-shift.md`
   - なぜ重要か: 次セッションで設計フェーズに最短復帰するため。
   - 何が変わったか: 今日の決定事項、未決事項、次回ToDoを保存。
   - 関連コミットID:

@@ -9,7 +9,7 @@
 ## 2. 現在地（Current status）
 
 - 完了:
-  - `docs/ai-news-agent-spec.md` に一次ターゲットユーザー、日次行動、主要課題、価値提案を反映。
+  - `docs/specs/ai-news-agent-spec.md` に一次ターゲットユーザー、日次行動、主要課題、価値提案を反映。
   - MVP の情報源を `公式ブログ / GitHub Releases / 公式ドキュメント / Hacker News` に統一。
   - Reddit は MVP から外し、将来フェーズで限定導入する方針に確定。
   - 完全翻訳の対象範囲を `本文 / 見出し / 箇条書き`、対象外を `表 / コードブロック` に確定。
@@ -26,35 +26,35 @@
 
 - 結論: 一次ターゲットは `英語圏のAI一次情報を追いたい日本語圏のAIエンジニア / ソフトウェアエンジニア / 個人開発者`。
   - 理由: ユーザー本人の課題ともっとも一致し、差別化の軸が明確になるため。
-  - 記録先: `docs/ai-news-agent-spec.md` の `ターゲットユーザー`
+  - 記録先: `docs/specs/ai-news-agent-spec.md` の `ターゲットユーザー`
 
 - 結論: 価値提案は `英語圏のAI一次情報を、技術語を壊さず日本語で整理し、AI実務者が重要な変化を短時間で判断しやすくする`。
   - 理由: `読むべき/試すべき` の断定を避けつつ、価値を具体化できるため。
-  - 記録先: `docs/ai-news-agent-spec.md` の `ターゲットユーザー`
+  - 記録先: `docs/specs/ai-news-agent-spec.md` の `ターゲットユーザー`
 
 - 結論: MVP の情報源は `公式ブログ / GitHub Releases / 公式ドキュメント / Hacker News`。
   - 理由: 一次情報中心で品質を保ちつつ、Hacker News を補助ソースとして話題検知に使えるため。
-  - 記録先: `docs/ai-news-agent-spec.md` の `MVP で優先する情報源`
+  - 記録先: `docs/specs/ai-news-agent-spec.md` の `MVP で優先する情報源`
 
 - 結論: Reddit は MVP に入れない。
   - 理由: 議論価値は高いがノイズが多く、対象技術に絞らないと軸がぶれるため。
-  - 記録先: `docs/ai-news-agent-spec.md` の `MVP では主導線にしない情報源`
+  - 記録先: `docs/specs/ai-news-agent-spec.md` の `MVP では主導線にしない情報源`
 
 - 結論: 完全翻訳の対象範囲は `本文 / 見出し / 箇条書き`。`表 / コードブロック` は対象外。
   - 理由: 完全翻訳の実装範囲を明確にし、要約混入を防ぎつつ表崩れを避けるため。
-  - 記録先: `docs/ai-news-agent-spec.md` の `6. 翻訳仕様`
+  - 記録先: `docs/specs/ai-news-agent-spec.md` の `6. 翻訳仕様`
 
 - 結論: 性能目標は `5記事で2分以内 / 10記事で3分以内`、測定条件は `キャッシュなし / 音声なし / コマンド開始から md 完了`。
   - 理由: Phase 1 の完了判定を実装可能な形にするため。
-  - 記録先: `docs/ai-news-agent-spec.md` の `8. パフォーマンス目標`
+  - 記録先: `docs/specs/ai-news-agent-spec.md` の `8. パフォーマンス目標`
 
 - 結論: MVP の TUI 対話は `自由入力 + 件数 + 音声有無` に最小化。
   - 理由: 日常利用しやすく、せっかちな利用者でも使いやすくするため。
-  - 記録先: `docs/ai-news-agent-spec.md` の `5. TUI 対話フェーズ設計`
+  - 記録先: `docs/specs/ai-news-agent-spec.md` の `5. TUI 対話フェーズ設計`
 
 - 結論: Phase 1 でも `manager 主導の最小マルチエージェント構成` で実装する。
   - 理由: 作りたい本体がそこにあり、アーキテクチャを最終形に寄せたままスコープだけを狭めるほうがよいため。
-  - 記録先: `docs/ai-news-agent-spec.md` の `9. アーキテクチャ概要`、`docs/design/minimal-multi-agent-design-items.md`
+  - 記録先: `docs/specs/ai-news-agent-spec.md` の `9. アーキテクチャ概要`、`docs/design/minimal-multi-agent-design-items.md`
 
 ## 4. 未決事項・不明点（Open questions / Unknowns）
 
@@ -101,7 +101,7 @@
 
 ## 6. 関連ファイル（Files touched / relevant files）
 
-- `docs/ai-news-agent-spec.md`
+- `docs/specs/ai-news-agent-spec.md`
   - なぜ重要か: 仕様本体。Phase 1 条件と最小マルチエージェント前提が反映されているため。
   - 何が変わったか: ターゲットユーザー、MVP 情報源、翻訳範囲、性能条件、TUI 最小対話、アーキテクチャを具体化。
   - 関連コミットID:
@@ -113,7 +113,7 @@
   - 関連コミットID:
     - 今回コミット予定
 
-- `docs/spec-review-topics.md`
+- `docs/spec-review-topics.md` は削除済み
   - なぜ重要か: 仕様レビューの残論点一覧として引き続き参照するため。
   - 何が変わったか: 前セッションで追加済み。今回は未変更。
   - 関連コミットID:
@@ -180,7 +180,7 @@
 - `https://github.com/akihirookuda95/ai-news-agent/issues/12`
   - 技術選定フェーズの Issue。
 
-- `docs/ai-news-agent-spec.md`
+- `docs/specs/ai-news-agent-spec.md`
   - 最新の仕様本体。Phase 1 条件とアーキテクチャ前提がある。
 
 関連コミットID（短縮SHA + 1行要約）

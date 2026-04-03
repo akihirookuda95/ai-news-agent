@@ -14,7 +14,7 @@ The repository is currently in:
 
 Current source-of-truth documents:
 
-- `docs/ai-news-agent-spec.md`
+- `docs/specs/ai-news-agent-spec.md`
 - `docs/design/minimal-multi-agent-design-items.md`
 - `docs/design/minimal-multi-agent-design-guidelines.md`
 - GitHub Issue `#11`
@@ -57,7 +57,7 @@ If code or older notes conflict with these, follow the documents and Issues abov
 ## Working Rules
 
 - Before changing architecture or scope, update the relevant docs or Issues first.
-- Treat `docs/ai-news-agent-spec.md`, `docs/design/minimal-multi-agent-design-items.md`, and `docs/design/minimal-multi-agent-design-guidelines.md` as the current design baseline.
+- Treat `docs/specs/ai-news-agent-spec.md`, `docs/design/minimal-multi-agent-design-items.md`, and `docs/design/minimal-multi-agent-design-guidelines.md` as the current design baseline.
 - Do not commit unrelated files such as `.claude/` unless explicitly requested.
 - Do not resurrect old `Phase 1 MVP CLI` assumptions if they conflict with the current minimal multi-agent direction.
 - When implementing, optimize for clarity of responsibilities, testability, and performance constraints.

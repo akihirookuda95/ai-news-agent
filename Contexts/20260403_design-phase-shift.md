@@ -54,7 +54,7 @@
 
 - 結論: Phase 1 でも `manager 主導の最小マルチエージェント構成` で実装する。
   - 理由: 作りたい本体がそこにあり、アーキテクチャを最終形に寄せたままスコープだけを狭めるほうがよいため。
-  - 記録先: `docs/ai-news-agent-spec.md` の `9. アーキテクチャ概要`、`docs/design/phase1-design-items.md`
+  - 記録先: `docs/ai-news-agent-spec.md` の `9. アーキテクチャ概要`、`docs/design/minimal-multi-agent-design-items.md`
 
 ## 4. 未決事項・不明点（Open questions / Unknowns）
 
@@ -107,7 +107,7 @@
   - 関連コミットID:
     - `b2b4841`
 
-- `docs/design/phase1-design-items.md`
+- `docs/design/minimal-multi-agent-design-items.md`
   - なぜ重要か: 次セッションの設計フェーズの起点になるため。
   - 何が変わったか: 固定パイプライン前提を捨て、最小マルチエージェント設計項目に全面更新。
   - 関連コミットID:

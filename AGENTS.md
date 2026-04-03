@@ -63,6 +63,7 @@
 - 現在の最小マルチエージェント方針と矛盾する古い `Phase 1 MVP CLI` 前提を復活させるな。
 - 実装時は、責務の明確さ、テストしやすさ、性能制約を優先しろ。
 - 設計フェーズでは、`docs/design/minimal-multi-agent-design-guidelines.md` を常に参照しながら議論しろ。
+- このプロジェクトを通して学んだことが発生したら、`docs/dev-notes/` 配下に学びメモの Markdown を追加しろ。
 
 ## 実装の方向性
 

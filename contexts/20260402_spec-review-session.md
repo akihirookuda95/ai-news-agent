@@ -87,7 +87,7 @@
   - 関連コミットID:
     - `ecc7221`
 
-- `Contexts/20260402_spec-review-session.md`
+- `contexts/20260402_spec-review-session.md`
   - なぜ重要か: 次セッションで最短復帰するための要約。
   - 何が変わったか: 本セッションの決定事項、未決事項、次回ToDoを保存。
   - 関連コミットID:

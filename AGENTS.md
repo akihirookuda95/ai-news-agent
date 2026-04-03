@@ -1,18 +1,19 @@
 # AGENTS.md
 
-## Purpose
+## 目的
 
-`ai-news-agent` is a manager-led minimal multi-agent system for collecting English AI primary sources, translating them into Japanese without breaking technical terms, and helping AI practitioners judge important changes quickly.
+`ai-news-agent` を、manager 主導の最小マルチエージェントシステムとして扱え。  
+このシステムは、英語圏の AI 一次情報を収集し、技術用語を壊さず日本語へ整理し、AI 実務者が重要な変化を短時間で判断しやすくすることを目的とする。
 
-## Current Phase
+## 現在のフェーズ
 
-The repository is currently in:
+このリポジトリは、現在次の段階にある。
 
-- design for the minimal multi-agent architecture
-- technical selection for that architecture
-- implementation is not the current source of truth yet
+- 最小マルチエージェント構成の設計
+- その構成に対する技術選定
+- 実装コードはまだ source of truth とみなすな
 
-Current source-of-truth documents:
+次の文書と Issue を現時点の source of truth として扱え。
 
 - `docs/specs/ai-news-agent-spec.md`
 - `docs/design/minimal-multi-agent-design-items.md`
@@ -20,52 +21,52 @@ Current source-of-truth documents:
 - GitHub Issue `#11`
 - GitHub Issue `#12`
 
-If code or older notes conflict with these, follow the documents and Issues above.
+コードや古いメモがこれらと矛盾する場合は、必ず上記の文書と Issue を優先しろ。
 
-## Product Constraints
+## プロダクト制約
 
-- Primary use case is reading, not audio-first consumption.
-- Priority sources are:
-  - official blogs
-  - GitHub Releases / changelogs
-  - official documentation updates
-  - Hacker News as a secondary source
-- Reddit, X, dev.to, and Zenn are not in the current minimal scope.
-- Full translation scope is:
-  - body
-  - headings
-  - bullet lists
-- Do not translate:
-  - tables
-  - code blocks
-- Performance target is:
-  - 5 articles within 2 minutes
-  - 10 articles within 3 minutes
-  - measured from command start to Markdown generation complete
-  - no cache
-  - no audio
+- 主用途は読むこととし、音声ファーストにはするな。
+- 優先ソースは次に限定しろ。
+  - 公式ブログ
+  - GitHub Releases / changelog
+  - 公式ドキュメント更新
+  - Hacker News は補助ソースとして扱え
+- Reddit、X、dev.to、Zenn は現時点の最小スコープに含めるな。
+- 完全翻訳の対象は次に限定しろ。
+  - 本文
+  - 見出し
+  - 箇条書き
+- 次は翻訳するな。
+  - 表
+  - コードブロック
+- 性能目標は次の条件で守れ。
+  - 5記事を2分以内で処理しろ
+  - 10記事を3分以内で処理しろ
+  - 計測範囲はコマンド開始から Markdown 生成完了までとしろ
+  - キャッシュなしを前提にしろ
+  - 音声なしを前提にしろ
 
-## Design Principles
+## 設計原則
 
-- Keep the architecture manager-led.
-- Prefer structured shared state over free-form text passing between agents.
-- Keep source adapters, normalization, ranking, translation, and output responsibilities separate.
-- Prefer primary sources over secondary sources.
-- Keep the implementation aligned with the minimal multi-agent scope before adding advanced autonomy.
-- Do not introduce speculative features unless they are reflected in the spec or Issues.
+- アーキテクチャは manager 主導で維持しろ。
+- agent 間の受け渡しは自由文ではなく構造化された shared state を優先しろ。
+- source adapter、normalization、ranking、translation、output の責務を分離しろ。
+- 二次情報より一次情報を優先しろ。
+- 高度な自律性を足す前に、最小マルチエージェントのスコープに整合させろ。
+- 仕様書や Issue に反映されていない推測ベースの機能を導入するな。
 
-## Working Rules
+## 作業ルール
 
-- Before changing architecture or scope, update the relevant docs or Issues first.
-- Treat `docs/specs/ai-news-agent-spec.md`, `docs/design/minimal-multi-agent-design-items.md`, and `docs/design/minimal-multi-agent-design-guidelines.md` as the current design baseline.
-- Do not commit unrelated files such as `.claude/` unless explicitly requested.
-- Do not resurrect old `Phase 1 MVP CLI` assumptions if they conflict with the current minimal multi-agent direction.
-- When implementing, optimize for clarity of responsibilities, testability, and performance constraints.
-- During the design phase, always reference `docs/design/minimal-multi-agent-design-guidelines.md` while discussing or refining architecture.
+- アーキテクチャやスコープを変える前に、関連する docs か Issue を先に更新しろ。
+- `docs/specs/ai-news-agent-spec.md`、`docs/design/minimal-multi-agent-design-items.md`、`docs/design/minimal-multi-agent-design-guidelines.md` を現行の設計基準として扱え。
+- `.claude/` のような無関係なファイルは、明示的な依頼がない限りコミットするな。
+- 現在の最小マルチエージェント方針と矛盾する古い `Phase 1 MVP CLI` 前提を復活させるな。
+- 実装時は、責務の明確さ、テストしやすさ、性能制約を優先しろ。
+- 設計フェーズでは、`docs/design/minimal-multi-agent-design-guidelines.md` を常に参照しながら議論しろ。
 
-## Implementation Direction
+## 実装の方向性
 
-Near-term expected components:
+近い将来に必要となる構成要素を次とみなせ。
 
 - `manager agent`
 - `source worker agents`
@@ -73,13 +74,13 @@ Near-term expected components:
 - `translation agent`
 - `markdown output layer`
 
-Expected design topics before major implementation:
+大きな実装に入る前に、次の設計論点を詰めろ。
 
-- manager responsibilities
-- source worker boundaries
-- shared memory schema
-- normalization / content extraction boundaries
-- stop conditions / success conditions
+- manager の責務
+- source worker の境界
+- shared memory の schema
+- normalization / content extraction の責務境界
+- 停止条件 / 成功条件
 - orchestration flow
 - error handling
 - parallelism strategy

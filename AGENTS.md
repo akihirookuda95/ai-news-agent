@@ -65,14 +65,6 @@
 - 設計フェーズでは、`docs/design/minimal-multi-agent-design-guidelines.md` を常に参照しながら議論しろ。
 - このプロジェクトを通して学んだことが発生したら、`docs/dev-notes/` 配下に学びメモの Markdown を追加しろ。
 
-## GitLab運用ルール
-
-- 日常の開発運用は GitLab を主系として扱え。
-- ユーザーが `#<number>` を示した場合、文脈上不自然でない限り GitLab の Issue または Merge Request 番号として扱え。
-- `#<number>` が Issue か Merge Request かを文脈で判定できない場合のみ、短く確認しろ。
-- GitLab 上の Issue / Merge Request の参照や操作には `glab` を使え。
-- GitHub 上の historical な Issue を参照する場合は、`GitHub Issue #11` のように明示されたときだけ扱え。
-
 ## 実装の方向性
 
 近い将来に必要となる構成要素を次とみなせ。

@@ -192,3 +192,69 @@ child worker への昇格条件:
 - worker の出力形式は必ず共通化する。
 - source 固有の取得処理は source adapter に閉じ込める。
 - source ごとの失敗は worker result に `failureReason` として残す。
+
+## 3. Shared Memory の基本方針
+
+### 今回の論点
+
+shared memory を、本文全文まで持つ共有ストアにするか、manager 判断用の構造化メタデータ中心の共有ストアにするかを決める。
+
+### 決定事項
+
+shared memory は **メタデータ中心** にし、本文全文は直接持たない。
+
+shared memory には、manager が次の action を判断するための構造化メタデータを置く。
+
+本文全文、抽出済み本文、翻訳本文は shared memory に直接載せず、別の参照先に置く前提にする。
+
+shared memory には本文そのものではなく、`contentRef` のような参照情報を持たせる。
+
+manager は shared memory だけを見て、探索継続、停止、翻訳対象確定、部分成功 / 失敗の判断を行う。
+
+translation と output は、必要に応じて `contentRef` から本文を読む。
+
+### 採らなかった選択肢
+
+#### 案 B: shared memory に本文全文も持つ構成
+
+shared memory にメタデータと本文全文の両方を持つ案。
+
+採用しない理由:
+
+- 長文本文が state に入り、shared memory が重くなりやすい。
+- manager が不要な本文情報を抱えやすい。
+- judge、translation、output の責務と manager 判断用 state が混ざりやすい。
+- 10 記事 3 分以内の性能目標に不利になりやすい。
+
+#### 案 C: managerState / contentStore の二層構造を最初から明示する構成
+
+manager 用 state と本文用 store を最初から別コンポーネントとして明示する案。
+
+採用しない理由:
+
+- 設計としてはきれいだが、MVP 初期としては構造を 1 段増やしすぎる。
+- 現時点では、まず本文を shared memory に直接持たないという原則だけ決まれば十分である。
+- 後から必要になれば、案Aの `contentRef` 前提から自然に二層構造へ拡張できる。
+
+### 採用理由
+
+- manager を薄い orchestrator に保ちやすい。
+- shared memory を manager 判断用の軽い state にできる。
+- 本文抽出失敗や部分成功を metadata と別に扱いやすい。
+- 完全翻訳と性能目標の両立に有利。
+- 将来 cache、translation QA、content store 分離へ拡張しやすい。
+
+### 未決事項
+
+- `contentRef` が指す参照先の実体。
+- 本文、抽出済み本文、翻訳本文をどの store / layer で持つか。
+- shared memory に載せる `shortSummary` を worker が作るか judge が作るか。
+- manager が判断に必要とする metadata の最小項目。
+- `CandidateItem` と `SourceWorkerResult` の具体 schema。
+
+### 実装への影響
+
+- shared memory は manager 判断用 metadata を中心に設計する。
+- worker は本文全文ではなく metadata と `contentRef` を返す形に寄せる。
+- translation と output は shared memory の本文フィールドではなく参照先から本文を取得する。
+- 後続の schema 議論では、`CandidateItem` に `contentRef` を含める前提で項目を決める。

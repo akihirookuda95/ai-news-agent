@@ -2,86 +2,79 @@
 
 ## 目的
 
-`ai-news-agent` を、manager 主導の最小マルチエージェントシステムとして扱え。  
-このシステムは、英語圏の AI 一次情報を収集し、技術用語を壊さず日本語へ整理し、AI 実務者が重要な変化を短時間で判断しやすくすることを目的とする。
+`ai-news-agent` を、ユーザーの関心技術・関心目的に沿って AI 情報を継続収集し、ノイズを抑えた research brief を生成・蓄積するプロダクトとして扱え。
+
+最終的には、公式情報とコミュニティ反応を横断し、ユーザーが「今読むべきもの」「試すべきもの」を判断しやすくする AI intelligence backend を目指す。
 
 ## 現在のフェーズ
 
 このリポジトリは、現在次の段階にある。
 
-- 最小マルチエージェント構成の設計
-- その構成に対する技術選定
-- 実装コードはまだ source of truth とみなすな
+- 最終プロダクト像から逆算した MVP / MVP-0 の絞り込み
+- MVP の機能要件・非機能要件の再定義
+- manager 主導の controlled multi-agent 構成の最小化
 
-次の文書と Issue を現時点の source of truth として扱え。
+実装コードはまだ source of truth とみなすな。
 
-- `docs/specs/ai-news-agent-spec.md`
-- `docs/design/minimal-multi-agent-design-items.md`
-- `docs/design/minimal-multi-agent-design-guidelines.md`
-- GitHub Issue `#11`
-- GitHub Issue `#12`
+## Source of Truth
 
-コードや古いメモがこれらと矛盾する場合は、必ず上記の文書と Issue を優先しろ。
+現時点の source of truth は次の文書である。
+
+- `docs/README.md`
+- `docs/design/product-vision-and-mvp-direction.md`
+
+`docs/archive/` 配下の文書は過去の設計資料であり、現行方針の source of truth ではない。
+
+archive 文書と現行 source of truth が矛盾する場合は、必ず現行 source of truth を優先しろ。
 
 ## プロダクト制約
 
+- 最上位価値は、完全翻訳そのものではなく、情報発見・ノイズ低減・自分向け relevance 判断に置け。
 - 主用途は読むこととし、音声ファーストにはするな。
-- 優先ソースは次に限定しろ。
-  - 公式ブログ
-  - GitHub Releases / changelog
-  - 公式ドキュメント更新
-  - Hacker News は補助ソースとして扱え
-- Reddit、X、dev.to、Zenn は現時点の最小スコープに含めるな。
-- 完全翻訳の対象は次に限定しろ。
-  - 本文
-  - 見出し
-  - 箇条書き
-- 次は翻訳するな。
-  - 表
-  - コードブロック
-- 性能目標は次の条件で守れ。
-  - 5記事を2分以内で処理しろ
-  - 10記事を3分以内で処理しろ
-  - 計測範囲はコマンド開始から Markdown 生成完了までとしろ
-  - キャッシュなしを前提にしろ
-  - 音声なしを前提にしろ
+- 最終像では広い source を扱える余地を残すが、MVP / MVP-0 では source を絞れ。
+- MVP-0 では、公式ブログ 1 系統を起点にした theme-based research brief 生成を優先しろ。
+- MVP では、少数の公式 source を横断して、関心技術に合う重要更新を拾えるかを検証しろ。
+- Reddit、X、Zenn、Qiita、dev.to、通知、音声、hosted DB、深い自律探索は MVP 以降に回せ。
+- 重要記事は必要に応じて翻訳する。全記事全文翻訳を最初から必須にするな。
+- 速度は重要だが、品質より常に優先するものではない。
 
 ## 設計原則
 
-- アーキテクチャは manager 主導で維持しろ。
-- agent 間の受け渡しは自由文ではなく構造化された shared state を優先しろ。
-- source adapter、normalization、ranking、translation、output の責務を分離しろ。
-- 二次情報より一次情報を優先しろ。
-- 高度な自律性を足す前に、最小マルチエージェントのスコープに整合させろ。
-- 仕様書や Issue に反映されていない推測ベースの機能を導入するな。
+- アーキテクチャは manager 主導の controlled multi-agent として扱え。
+- agent 間の受け渡しは自由文ではなく、構造化された shared state を優先しろ。
+- source adapter、normalization、ranking / judging、translation、output の責務を分離しろ。
+- manager を太らせるな。manager は source 選択、進行管理、停止判定、追加調査判断、翻訳対象確定に寄せろ。
+- 通常 digest では制御された範囲で動かし、深掘り時だけ自律性を上げろ。
+- 低コストな判断は agent が進めてよいが、コスト・時間・スコープが大きい判断はユーザーに確認しろ。
+- 仕様や docs に反映されていない推測ベースの機能を導入するな。
 
 ## 作業ルール
 
-- アーキテクチャやスコープを変える前に、関連する docs か Issue を先に更新しろ。
-- `docs/specs/ai-news-agent-spec.md`、`docs/design/minimal-multi-agent-design-items.md`、`docs/design/minimal-multi-agent-design-guidelines.md` を現行の設計基準として扱え。
+- アーキテクチャ、プロダクト像、MVP スコープを変える前に、関連 docs を先に更新しろ。
+- 現行方針を確認するときは、まず `docs/design/product-vision-and-mvp-direction.md` を参照しろ。
+- archive 文書から判断を復活させる場合は、現行 source of truth との整合理由を明記しろ。
 - `.claude/` のような無関係なファイルは、明示的な依頼がない限りコミットするな。
-- 現在の最小マルチエージェント方針と矛盾する古い `Phase 1 MVP CLI` 前提を復活させるな。
-- 実装時は、責務の明確さ、テストしやすさ、性能制約を優先しろ。
-- 設計フェーズでは、`docs/design/minimal-multi-agent-design-guidelines.md` を常に参照しながら議論しろ。
-- このプロジェクトを通して学んだことが発生したら、`docs/dev-notes/` 配下に学びメモの Markdown を追加しろ。
+- 古い `Phase 1 MVP CLI` 前提を復活させるな。
+- 実装時は、責務の明確さ、テストしやすさ、ノイズ低減、relevance 判断の説明可能性を優先しろ。
+- このプロジェクトを通して学んだことが発生したら、現行 docs または archive ではない適切な dev notes に記録しろ。
 
-## 実装の方向性
-
-近い将来に必要となる構成要素を次とみなせ。
+## 近い将来に必要な構成要素
 
 - `manager agent`
 - `source worker agents`
-- `judge / dedupe agent`
-- `translation agent`
+- `judge / dedupe layer`
+- `translation layer`
 - `markdown output layer`
+- `shared state`
 
-大きな実装に入る前に、次の設計論点を詰めろ。
+大きな実装に入る前に、次を MVP / MVP-0 の範囲に絞って詰めろ。
 
+- MVP / MVP-0 の目的
+- MVP の機能要件
+- MVP の非機能要件
 - manager の責務
 - source worker の境界
-- shared memory の schema
-- normalization / content extraction の責務境界
-- 停止条件 / 成功条件
-- orchestration flow
+- shared state schema
+- ranking / relevance 判断
+- markdown output format
 - error handling
-- parallelism strategy

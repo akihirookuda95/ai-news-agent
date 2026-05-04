@@ -7,8 +7,9 @@
 現時点のプロダクト開発の source of truth は次の文書である。
 
 - `docs/design/product-vision-and-mvp-direction.md`
+- `docs/design/mvp-requirements.md`
 
-この文書を、最終プロダクト像、価値定義、MVP の絞り込み方針の基準として扱う。
+これらの文書を、最終プロダクト像、価値定義、MVP の絞り込み方針、MVP 要件の基準として扱う。
 
 ## Archive
 
@@ -26,7 +27,7 @@ archive 文書を参照してはいけないケース:
 - 現行のプロダクト制約を決める
 - 現行の実装方針を旧仕様で上書きする
 
-archive 文書と `product-vision-and-mvp-direction.md` が矛盾する場合は、`product-vision-and-mvp-direction.md` を優先する。
+archive 文書と現行 source of truth が矛盾する場合は、現行 source of truth を優先する。
 
 ## Current Focus
 

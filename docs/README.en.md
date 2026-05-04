@@ -8,8 +8,9 @@ The current source of truth for product development is:
 
 - `docs/design/product-vision-and-mvp-direction.md`
 - `docs/design/product-vision-and-mvp-direction.en.md`
+- `docs/design/mvp-requirements.md`
 
-These documents define the final product vision, value definition, and MVP narrowing direction.
+These documents define the final product vision, value definition, MVP narrowing direction, and MVP requirements.
 
 When the Japanese and English versions differ, the Japanese version is the primary source.
 
@@ -29,7 +30,7 @@ Archive documents should not be used for:
 - deciding current product constraints
 - overriding the current implementation direction with older specifications
 
-If an archive document conflicts with `product-vision-and-mvp-direction.md`, prioritize `product-vision-and-mvp-direction.md`.
+If an archive document conflicts with the current source of truth, prioritize the current source of truth.
 
 ## Current Focus
 

@@ -22,6 +22,7 @@
 
 - `docs/README.md`
 - `docs/design/product-vision-and-mvp-direction.md`
+- `docs/design/mvp-requirements.md`
 
 `docs/archive/` 配下の文書は過去の設計資料であり、現行方針の source of truth ではない。
 
@@ -32,11 +33,11 @@ archive 文書と現行 source of truth が矛盾する場合は、必ず現行 
 - 最上位価値は、完全翻訳そのものではなく、情報発見・ノイズ低減・自分向け relevance 判断に置け。
 - 主用途は読むこととし、音声ファーストにはするな。
 - 最終像では広い source を扱える余地を残すが、MVP / MVP-0 では source を絞れ。
-- MVP-0 では、公式ブログ 1 系統を起点にした theme-based research brief 生成を優先しろ。
-- MVP では、少数の公式 source を横断して、関心技術に合う重要更新を拾えるかを検証しろ。
-- Reddit、X、Zenn、Qiita、dev.to、通知、音声、hosted DB、深い自律探索は MVP 以降に回せ。
-- 重要記事は必要に応じて翻訳する。全記事全文翻訳を最初から必須にするな。
-- 速度は重要だが、品質より常に優先するものではない。
+- MVP では、公式ブログ、GitHub Releases / changelog、公式ドキュメント更新、Hacker News を固定 source として扱う。
+- MVP では、Reddit、X、Zenn、Qiita、dev.to、通知、音声、hosted DB、深い自律探索は対象外にしろ。
+- MVP の出力は source 別 Markdown research brief とし、出力対象記事は本文全文翻訳する。
+- MVP では時間制限を置かず、source 取得の安定性と Markdown の読みやすさを優先しろ。
+- MVP では ranking / judging を賢くしすぎず、URL 重複除去に留めろ。
 
 ## 設計原則
 
@@ -51,7 +52,7 @@ archive 文書と現行 source of truth が矛盾する場合は、必ず現行 
 ## 作業ルール
 
 - アーキテクチャ、プロダクト像、MVP スコープを変える前に、関連 docs を先に更新しろ。
-- 現行方針を確認するときは、まず `docs/design/product-vision-and-mvp-direction.md` を参照しろ。
+- 現行方針を確認するときは、まず `docs/design/product-vision-and-mvp-direction.md` と `docs/design/mvp-requirements.md` を参照しろ。
 - archive 文書から判断を復活させる場合は、現行 source of truth との整合理由を明記しろ。
 - `.claude/` のような無関係なファイルは、明示的な依頼がない限りコミットするな。
 - 古い `Phase 1 MVP CLI` 前提を復活させるな。

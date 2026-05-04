@@ -429,6 +429,211 @@ graph、adapter、translation、output の既存 module は大きく変えない
 - graph visualization
 - hosted execution
 
+### 5. 公式ブログ source ごとの取得方法
+
+#### 決定
+
+MVP-0 の公式ブログ source は、次の取得方法を採用する。
+
+| source | preferred fetch | fallback |
+|---|---|---|
+| OpenAI | `https://openai.com/news/rss.xml` | `https://openai.com/news/` |
+| Anthropic | `https://www.anthropic.com/sitemap.xml` から `/engineering/` URL を抽出 | `https://www.anthropic.com/engineering` |
+| LangChain | `https://www.langchain.com/blog/rss.xml` | `https://www.langchain.com/blog` |
+| LangGraph | `https://www.langchain.com/blog/rss.xml` を読み、LangGraph 関連記事に絞る | `https://www.langchain.com/blog` |
+
+Anthropic は `News` ではなく `Engineering` を MVP-0 の対象にする。
+
+LangGraph は独立した公式 blog / feed ではなく LangChain Blog 配下の記事群として扱う。
+
+#### 理由
+
+OpenAI は公式 News RSS が存在し、`title` / `description` / `link` / `category` / `pubDate` を RSS から取得できる。
+
+LangChain は公式 Blog RSS が存在し、`title` / `link` / `guid` / `description` / `pubDate` を RSS から取得できる。
+
+Anthropic は `news/rss.xml`、`rss.xml`、`engineering/rss.xml`、`engineering/rss` が確認時点では 404 だった。一方で、公式 sitemap は存在し、`/engineering/...` URL と `lastmod` を含む。
+
+Anthropic の `Engineering` は agent / coding / MCP / evals など MVP-0 の関心技術に近いため、`News` よりも relevance が高い。
+
+LangGraph は LangChain Blog 内のカテゴリまたは記事群として存在するため、LangChain RSS を共用し、LangGraph 関連記事だけを抽出する。
+
+#### source 別メモ
+
+##### OpenAI
+
+公式一覧:
+
+```text
+https://openai.com/news/
+```
+
+preferred fetch:
+
+```text
+https://openai.com/news/rss.xml
+```
+
+fallback:
+
+```text
+https://openai.com/news/
+```
+
+RSS から取得できる主な項目:
+
+- `title`
+- `description`
+- `link`
+- `category`
+- `pubDate`
+
+本文は RSS の `link` 先の記事ページから抽出する。
+
+##### Anthropic
+
+公式一覧:
+
+```text
+https://www.anthropic.com/engineering
+```
+
+preferred fetch:
+
+```text
+https://www.anthropic.com/sitemap.xml
+```
+
+抽出条件:
+
+```text
+loc が https://www.anthropic.com/engineering/ で始まる URL
+```
+
+fallback:
+
+```text
+https://www.anthropic.com/engineering
+```
+
+sitemap から取得できる主な項目:
+
+- `loc`
+- `lastmod`
+
+本文と title / published date は記事ページから抽出する。
+
+##### LangChain
+
+公式一覧:
+
+```text
+https://www.langchain.com/blog
+```
+
+preferred fetch:
+
+```text
+https://www.langchain.com/blog/rss.xml
+```
+
+fallback:
+
+```text
+https://www.langchain.com/blog
+```
+
+RSS から取得できる主な項目:
+
+- `title`
+- `link`
+- `guid`
+- `description`
+- `pubDate`
+
+本文は RSS の `link` 先の記事ページから抽出する。
+
+##### LangGraph
+
+公式一覧:
+
+```text
+https://www.langchain.com/blog
+```
+
+preferred fetch:
+
+```text
+https://www.langchain.com/blog/rss.xml
+```
+
+抽出条件:
+
+```text
+title / description / link / article page の category に LangGraph が含まれる記事
+```
+
+fallback:
+
+```text
+https://www.langchain.com/blog
+```
+
+LangGraph は LangChain Blog の一部として扱うため、LangChain adapter と取得元は重複する。
+
+MVP-0 では URL dedupe により、LangChain と LangGraph で同じ URL が出た場合は重複除去する。
+
+#### MVP-0 に必要な理由
+
+source ごとの取得方法を固定することで、adapter 実装時の判断を減らせる。
+
+RSS がある source は RSS を優先し、RSS がない source は sitemap または公式 HTML 一覧に限定することで、MVP-0 の source を公式情報に保てる。
+
+#### 壊れやすい場所
+
+- OpenAI RSS の URL または項目構造変更
+- Anthropic sitemap の URL 構造変更
+- Anthropic Engineering ページの HTML 構造変更
+- LangChain RSS の `pubDate` の信頼性
+- LangGraph 関連記事の判定条件
+- LangChain と LangGraph の URL 重複
+
+#### 後から source を追加する場合の変更箇所
+
+新しい source adapter に、次を明示して追加する。
+
+- 公式一覧 URL
+- preferred fetch
+- fallback
+- metadata extraction
+- body extraction
+
+`official_blog_worker` の adapter 一覧に登録する。
+
+#### 後回しにするもの
+
+- Web 検索による source 補完
+- 非公式 RSS aggregator の利用
+- Anthropic News と Engineering の統合
+- LangGraph 専用 feed の自動発見
+- semantic relevance 判定
+
+#### 調査時に確認した一次情報
+
+- OpenAI News
+  - `https://openai.com/news/`
+  - `https://openai.com/news/rss.xml`
+- Anthropic Engineering
+  - `https://www.anthropic.com/engineering`
+  - `https://www.anthropic.com/sitemap.xml`
+- LangChain Blog
+  - `https://www.langchain.com/blog`
+  - `https://www.langchain.com/blog/rss.xml`
+- LangGraph article on LangChain Blog
+  - `https://www.langchain.com/blog/langgraph`
+
 ## 次に決めること
 
-1. 公式ブログ source ごとの取得方法
+1. `candidateId` と `runId` の生成ルール
+2. LangGraph.js の shared state schema
+3. 翻訳 API / model / 環境変数の扱い

@@ -33,11 +33,12 @@ archive 文書と現行 source of truth が矛盾する場合は、必ず現行 
 - 最上位価値は、完全翻訳そのものではなく、情報発見・ノイズ低減・自分向け relevance 判断に置け。
 - 主用途は読むこととし、音声ファーストにはするな。
 - 最終像では広い source を扱える余地を残すが、MVP / MVP-0 では source を絞れ。
-- MVP では、公式ブログ、GitHub Releases / changelog、公式ドキュメント更新、Hacker News を固定 source として扱う。
-- MVP では、Reddit、X、Zenn、Qiita、dev.to、通知、音声、hosted DB、深い自律探索は対象外にしろ。
-- MVP の出力は source 別 Markdown research brief とし、出力対象記事は本文全文翻訳する。
-- MVP では時間制限を置かず、source 取得の安定性と Markdown の読みやすさを優先しろ。
-- MVP では ranking / judging を賢くしすぎず、URL 重複除去に留めろ。
+- MVP-0 では、公式ブログだけを対象 source として扱う。
+- MVP-0 の公式ブログ対象は OpenAI / Anthropic / LangChain / LangGraph とする。
+- MVP-0 では、GitHub Releases / changelog、公式ドキュメント更新、Hacker News、Reddit、X、Zenn、Qiita、dev.to、通知、音声、hosted DB、深い自律探索は対象外にしろ。
+- MVP-0 の出力は Markdown research brief とし、出力対象記事は本文翻訳する。
+- MVP-0 では時間制限を置かず、source 取得の安定性と Markdown の読みやすさを優先しろ。
+- MVP-0 では ranking / judging を賢くしすぎず、URL 重複除去に留めろ。
 
 ## 設計原則
 
